@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: techservice-manager
+  datasource:
+    url: jdbc:postgresql://localhost:5432/techservice
+    username: techservice
+    password: techservice
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  jwt:
+    # Clave HS256 (>= 32 bytes). Cambiar en producción.
+    secret: "TechServiceManagerDevSecretKey_ChangeInProd_2026!"
+    access-token-expiration-ms: 3600000
+    refresh-token-expiration-ms: 604800000
+  seed:
+    enabled: true
+
+logging:
+  level:
+    com.techservice: INFO
+    org.hibernate.SQL: WARN
+    org.springframework.security: INFO
+
+---
+# Perfil local de emergencia (sin PostgreSQL): mvn spring-boot:run -Dspring-boot.run.profiles=h2
+spring:
+  config:
+    activate:
+      on-profile: h2
+  datasource:
+    url: jdbc:h2:mem:techservice;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect

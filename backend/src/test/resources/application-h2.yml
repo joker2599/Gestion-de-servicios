@@ -1,0 +1,12 @@
+app:
+  seed:
+    enabled: false
+  jwt:
+    secret: "TechServiceManagerTestSecretKey_AtLeast32Bytes!!"
+    access-token-expiration-ms: 600000
+    refresh-token-expiration-ms: 3600000
+
+logging:
+  level:
+    root: WARN
+    com.techservice: INFO
